@@ -1,11 +1,10 @@
 {
   "expo": {
     "name": "barcode-banditos",
-    "slug": "barcode-banditos",
+    "slug": "snack-3bb961e5-ae81-4cec-89a3-d4867506f9fe",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -28,6 +27,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Nothing like bandits"
   }
 }
