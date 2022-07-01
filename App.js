@@ -4,9 +4,11 @@ import Constants from 'expo-constants';
 
 // You can import from local files
 import AssetExample from './components/AssetExample';
+import ScanABarcode from './components/ScanABarcode';
 
 // or any pure javascript modules available in npm
 import { Card } from 'react-native-paper';
+import { ScrollView } from 'react-native-web';
 
 export default function App() {
   return (
@@ -14,9 +16,14 @@ export default function App() {
       <Text style={styles.paragraph}>
         Change code in the editor and watch it change on your phone! Save to get a shareable url.
       </Text>
+      <ScrollView horizontal={true}>
       <Card>
         <AssetExample />
       </Card>
+      <Card>
+        <ScanABarcode />
+      </Card>
+      </ScrollView>
     </View>
   );
 }
