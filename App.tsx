@@ -1,75 +1,65 @@
+'use strict';
+
 import React, { Component } from 'react';
+
 import {
-Text,
-View,
-StyleSheet,
-Alert,
-TouchableOpacity,
-Image
+  AppRegistry,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Linking
 } from 'react-native';
-import Camera from 'react-native-camera';
-export default class BarcodeScan extends Component {
-constructor(props) {
-super(props);
-this.handleTourch = this.handleTourch.bind(this);
-this.state = {
-torchOn: false
+
+import QRCodeScanner from 'react-native-qrcode-scanner';
+import { RNCamera } from 'react-native-camera';
+
+class ScanScreen extends Component {
+  onSuccess = e => {
+    Linking.openURL(e.data).catch(err =>
+      console.error('An error occured', err)
+    );
+  };
+
+  render() {
+    return (
+      <QRCodeScanner
+        onRead={this.onSuccess}
+        flashMode={RNCamera.Constants.FlashMode.torch}
+        topContent={
+          <Text style={styles.centerText}>
+            Go to{' '}
+            <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
+            your computer and scan the QR code.
+          </Text>
+        }
+        bottomContent={
+          <TouchableOpacity style={styles.buttonTouchable}>
+            <Text style={styles.buttonText}>OK. Got it!</Text>
+          </TouchableOpacity>
+        }
+      />
+    );
+  }
 }
-}
-onBarCodeRead = (e) => {
-Alert.alert("Barcode value is" + e.data, "Barcode type is" + e.type);
-}
-render() {
-return (
-<View style={styles.container}>
-<Camera
-style={styles.preview}
-torchMode={this.state.torchOn ? Camera.constants.TorchMode.on : Camera.constants.TorchMode.off}
-onBarCodeRead={this.onBarCodeRead}
-ref={cam => this.camera = cam}
-aspect={Camera.constants.Aspect.fill}
->
-<Text style={{
-backgroundColor: 'white'
-}}>BARCODE SCANNER</Text>
-</Camera>
-<View style={styles.bottomOverlay}>
-<TouchableOpacity onPress={() => this.handleTourch(this.state.torchOn)}>
-<Image style={styles.cameraIcon}
-source={this.state.torchOn === true ? require('../../images/flasher_on.png') : require('../../images/flasher_off.png')} />
-</TouchableOpacity>
-</View>
-</View>
-)
-}
-handleTourch(value) {
-if (value === true) {
-this.setState({ torchOn: false });
-} else {
-this.setState({ torchOn: true });
-}
-}
-}
+
 const styles = StyleSheet.create({
-container: {
-flex: 1,
-flexDirection: 'row',
-},
-preview: {
-flex: 1,
-justifyContent: 'flex-end',
-alignItems: 'center'
-},
-cameraIcon: {
-margin: 5,
-height: 40,
-width: 40
-},
-bottomOverlay: {
-position: "absolute",
-width: "100%",
-flex: 20,
-flexDirection: "row",
-justifyContent: "space-between"
-},
+  centerText: {
+    flex: 1,
+    fontSize: 18,
+    padding: 32,
+    color: '#777'
+  },
+  textBold: {
+    fontWeight: '500',
+    color: '#000'
+  },
+  buttonText: {
+    fontSize: 21,
+    color: 'rgb(0,122,255)'
+  },
+  buttonTouchable: {
+    padding: 16
+  }
 });
+
+AppRegistry.registerComponent('default', () => ScanScreen);
